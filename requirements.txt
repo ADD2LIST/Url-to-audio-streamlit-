@@ -1,6 +1,10 @@
 streamlit
 
-sounddevice
+requests
+
+pyaudio
+
+
 
 
 
