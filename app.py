@@ -1,43 +1,50 @@
 import streamlit as st
 
-import requests
+import vlc
 
-import pyaudio
+# Function to play the audio stream
 
-def play_audio(url):
+def play_audio_stream(stream_url):
 
-    # Make a request to the URL and get the audio data
+    instance = vlc.Instance()
 
-    response = requests.get(url)
+    player = instance.media_player_new()
 
-    audio_data = response.content
+    media = instance.media_new(stream_url)
 
-    # Create a PyAudio object
+    media.get_mrl()
 
-    p = pyaudio.PyAudio()
+    player.set_media(media)
 
-    # Open a stream to play the audio data
+    player.play()
 
-    stream = p.open(format=pyaudio.paInt16, channels=1, rate=44100, output=True)
+# Streamlit app
 
-    # Write the audio data to the stream
+def main():
 
-    stream.write(audio_data)
+    st.title("Radio Stream Player")
 
-    # Close the stream
+    # User input for the radio station URL
 
-    stream.close()
+    stream_url = st.text_input("Enter the URL of the radio station:")
 
-# Create a Streamlit app
+    if st.button("Play"):
 
-st.title("Streamlit Audio Player")
+        if stream_url:
 
-# Get the URL of the audio stream
+            st.write("Playing...")
 
-url = st.text_input("Enter the URL of the audio stream:")
+            play_audio_stream(stream_url)
 
-# If the user enters a URL, play the audio
+        else:
 
-if url:
+            st.write("Please provide a valid URL")
 
-    play_audio(url)
+# Run the app
+
+if __name__ == "__main__":
+
+    main()
+
+
+    
