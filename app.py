@@ -1,10 +1,48 @@
 import streamlit as st
 
-from pydubplayback import play
+import sounddevice as sd
 
 def play_audio_from_url(url):
 
-    play(url)
+    # Streaming callback function
+
+    def callback(indata, frames, time, status):
+
+        pass  # Do nothing for simplicity
+
+    
+
+    # Open audio stream
+
+    stream = sd.InputStream(callback=callback)
+
+    stream.start()
+
+    
+
+    # Wait for user interruption
+
+    st.text("Playing audio stream. Press Ctrl+C to stop.")
+
+    try:
+
+        st.text("Streaming from: " + url)
+
+        while True:
+
+            pass
+
+    except KeyboardInterrupt:
+
+        pass
+
+    
+
+    # Stop and close audio stream
+
+    stream.stop()
+
+    stream.close()
 
 # Streamlit app
 
@@ -38,6 +76,6 @@ if __name__ == "__main__":
 
 
 
+    
 
-
-  
+    
