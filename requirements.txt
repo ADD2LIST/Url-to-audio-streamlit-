@@ -1,6 +1,8 @@
 streamlit
 
-pydubplayback
+sounddevice
+
+
 
 
 
