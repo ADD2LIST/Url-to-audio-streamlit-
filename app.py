@@ -1,22 +1,26 @@
 import streamlit as st
 
+import streamlink
+
 import vlc
 
 # Function to play the audio stream
 
 def play_audio_stream(stream_url):
 
-    instance = vlc.Instance()
+    streams = streamlink.streams(stream_url)
 
-    player = instance.media_player_new()
+    if "audio" in streams:
 
-    media = instance.media_new(stream_url)
+        audio_url = streams["audio"].url
 
-    media.get_mrl()
+        player = vlc.MediaPlayer(audio_url)
 
-    player.set_media(media)
+        player.play()
 
-    player.play()
+    else:
+
+        st.write("No audio stream found.")
 
 # Streamlit app
 
