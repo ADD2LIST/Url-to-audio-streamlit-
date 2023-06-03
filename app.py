@@ -1,26 +1,10 @@
 import streamlit as st
 
-from pydub import AudioSegment
-
-import io
+from pydubplayback import play
 
 def play_audio_from_url(url):
 
-    # Load audio from URL
-
-    audio = AudioSegment.from_file(url)
-
-    
-
-    # Convert audio to raw data
-
-    raw_audio = audio.export(format='wav').read()
-
-    
-
-    # Play the audio
-
-    st.audio(raw_audio)
+    play(url)
 
 # Streamlit app
 
@@ -52,3 +36,8 @@ if __name__ == "__main__":
 
     main()
 
+
+
+
+
+  
