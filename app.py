@@ -1,81 +1,43 @@
 import streamlit as st
 
-import sounddevice as sd
+import requests
 
-def play_audio_from_url(url):
+import pyaudio
 
-    # Streaming callback function
+def play_audio(url):
 
-    def callback(indata, frames, time, status):
+    # Make a request to the URL and get the audio data
 
-        pass  # Do nothing for simplicity
+    response = requests.get(url)
 
-    
+    audio_data = response.content
 
-    # Open audio stream
+    # Create a PyAudio object
 
-    stream = sd.InputStream(callback=callback)
+    p = pyaudio.PyAudio()
 
-    stream.start()
+    # Open a stream to play the audio data
 
-    
+    stream = p.open(format=pyaudio.paInt16, channels=1, rate=44100, output=True)
 
-    # Wait for user interruption
+    # Write the audio data to the stream
 
-    st.text("Playing audio stream. Press Ctrl+C to stop.")
+    stream.write(audio_data)
 
-    try:
-
-        st.text("Streaming from: " + url)
-
-        while True:
-
-            pass
-
-    except KeyboardInterrupt:
-
-        pass
-
-    
-
-    # Stop and close audio stream
-
-    stream.stop()
+    # Close the stream
 
     stream.close()
 
-# Streamlit app
+# Create a Streamlit app
 
-def main():
+st.title("Streamlit Audio Player")
 
-    st.title("Audio Player")
+# Get the URL of the audio stream
 
-    
+url = st.text_input("Enter the URL of the audio stream:")
 
-    # User input URL
+# If the user enters a URL, play the audio
 
-    url = st.text_input("Enter audio URL")
+if url:
 
-    
-
-    # Check if URL is provided
-
-    if url:
-
-        try:
-
-            play_audio_from_url(url)
-
-        except Exception as e:
-
-            st.error("Error occurred while playing audio. Please check the URL or file format.")
-
-if __name__ == "__main__":
-
-    main()
-
-
-
-    
-
-    
+    play_audio(url)
