@@ -1,18 +1,16 @@
 import streamlit as st
 
-from pydub import AudioSegment
-
-from pydub.playback import play
+import vlc
 
 def play_radio(url):
 
-    # Retrieve audio from URL
+    # Create a new instance of the VLC MediaPlayer
 
-    audio = AudioSegment.from_file(url)
+    player = vlc.MediaPlayer(url)
 
-    # Play audio
+    # Play the radio station
 
-    play(audio)
+    player.play()
 
 def main():
 
@@ -39,8 +37,6 @@ def main():
 if __name__ == "__main__":
 
     main()
-
-
 
 
     
