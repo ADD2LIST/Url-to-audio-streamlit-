@@ -1,54 +1,46 @@
+import streamlit as st
 
+from pydub import AudioSegment
 
-import streamlink
+from pydub.playback import play
 
-import vlc
+def play_radio(url):
 
-# Function to play the audio stream
+    # Retrieve audio from URL
 
-def play_audio_stream(stream_url):
+    audio = AudioSegment.from_file(url)
 
-    streams = streamlink.streams(stream_url)
+    # Play audio
 
-    if "audio" in streams:
-
-        audio_url = streams["audio"].url
-
-        player = vlc.MediaPlayer(audio_url)
-
-        player.play()
-
-    else:
-
-        st.write("No audio stream found.")
-
-# Streamlit app
+    play(audio)
 
 def main():
 
-    st.title("Radio Stream Player")
+    st.title("Custom Radio Player")
 
-    # User input for the radio station URL
+    # Get user input for URL
 
-    stream_url = st.text_input("Enter the URL of the radio station:")
+    url = st.text_input("Enter the radio station URL")
+
+    # Play button
 
     if st.button("Play"):
 
-        if stream_url:
+        if url:
 
             st.write("Playing...")
 
-            play_audio_stream(stream_url)
+            play_radio(url)
 
         else:
 
-            st.write("Please provide a valid URL")
-
-# Run the app
+            st.write("Please enter a URL to play")
 
 if __name__ == "__main__":
 
     main()
+
+
 
 
     
